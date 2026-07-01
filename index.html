@@ -198,6 +198,7 @@ a{color:inherit;text-decoration:none;}
       <div class="sb-group-label">Download</div>
       <a href="/resume.pdf" target="_blank" class="sb-link"><span class="sb-icon">&darr;</span> Resume PDF</a>
       <a href="/Digital_Portfolio_OJT.pdf" target="_blank" class="sb-link"><span class="sb-icon">&darr;</span> OJT Portfolio</a>
+      <a href="/thesis.pdf" target="_blank" class="sb-link"><span class="sb-icon">&darr;</span> Thesis PDF</a>
     </div>
   </nav>
 
@@ -314,13 +315,18 @@ a{color:inherit;text-decoration:none;}
           <span class="proj-name">SnackSwap</span>
           <span class="proj-badge thesis">Thesis</span>
         </div>
-        <div class="proj-tags"><span class="proj-tag">Arduino</span><span class="proj-tag">C++</span><span class="proj-tag">IoT</span></div>
-        <div class="proj-desc">Reverse vending machine &mdash; recycle bottles for snacks.</div>
+        <div class="proj-tags"><span class="proj-tag">Arduino</span><span class="proj-tag">C++</span><span class="proj-tag">ESP32</span><span class="proj-tag">IoT</span><span class="proj-tag">Blynk</span></div>
+        <div class="proj-desc">Reverse vending machine that accepts plastic bottles and aluminum cans in exchange for snacks or water &mdash; promoting recycling and community well-being.</div>
         <ul class="proj-bullets">
-          <li>Arduino Mega + 5 sensor types for material validation</li>
-          <li>Real-time inventory and waste monitoring</li>
-          <li>Point-based reward system with LCD interface</li>
+          <li>Capacitive, inductive, IR, and weight sensors for 100% material classification accuracy</li>
+          <li>Arduino Mega processes validation; ESP32 streams bin &amp; water levels to Blynk app in real time</li>
+          <li>Point-based reward system: 10 pts = snack, 3 pts = water; 2-min reset prevents point abuse</li>
+          <li>Ultrasonic sensors track fill levels with 95&ndash;99% accuracy, avg. 11.77 s response</li>
+          <li>10 test users: usability 4.3/5, reward satisfaction 4.5/5, environmentally beneficial 5.0/5</li>
+          <li>Built with Sintra board prototype housing; total BOM cost ₱12,750</li>
         </ul>
+        <a class="proj-link" href="https://youtu.be/2qmf1pxeCdU" target="_blank">Kickstarter video &rarr;</a>
+        <a class="proj-link" href="/thesis.pdf" target="_blank">Download thesis &rarr;</a>
       </div>
 
     </div>
