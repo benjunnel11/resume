@@ -92,9 +92,12 @@ a{color:inherit;text-decoration:none;}
 
 /* Stack grid */
 .stack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
-.stack-item{padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;transition:all .2s;cursor:default;}
-.stack-item:hover{border-color:var(--accent);transform:translateY(-2px);}
-.stack-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.stack-item{padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;transition:all .2s;cursor:pointer;display:block;}
+.stack-item:hover{border-color:var(--accent);transform:translateY(-2px);background:rgba(139,92,246,.04);}
+.stack-item:hover .stack-name{color:var(--accent);}
+.stack-item:hover .stack-arrow{opacity:1;}
+.stack-name{font-size:13px;font-weight:700;margin-bottom:2px;transition:color .15s;display:flex;justify-content:space-between;align-items:center;}
+.stack-arrow{font-size:10px;color:var(--accent);opacity:0;transition:opacity .15s;}
 .stack-desc{font-size:11px;color:#52525b;}
 
 /* Projects */
@@ -278,18 +281,18 @@ a{color:inherit;text-decoration:none;}
       <span class="sec-line"></span>
     </div>
     <div class="stack-grid">
-      <div class="stack-item"><div class="stack-name">PHP</div><div class="stack-desc">Primary backend</div></div>
-      <div class="stack-item"><div class="stack-name">MySQL</div><div class="stack-desc">Database</div></div>
-      <div class="stack-item"><div class="stack-name">JavaScript</div><div class="stack-desc">Frontend + AJAX</div></div>
-      <div class="stack-item"><div class="stack-name">Java</div><div class="stack-desc">Spring Boot APIs</div></div>
-      <div class="stack-item"><div class="stack-name">React.js</div><div class="stack-desc">UI framework</div></div>
-      <div class="stack-item"><div class="stack-name">TiDB Cloud</div><div class="stack-desc">Cloud sync DB</div></div>
-      <div class="stack-item"><div class="stack-name">Firebase</div><div class="stack-desc">Auth + realtime</div></div>
-      <div class="stack-item"><div class="stack-name">Git</div><div class="stack-desc">Version control</div></div>
-      <div class="stack-item"><div class="stack-name">Arduino</div><div class="stack-desc">IoT / embedded</div></div>
-      <div class="stack-item"><div class="stack-name">C / C++</div><div class="stack-desc">Systems + Arduino</div></div>
-      <div class="stack-item"><div class="stack-name">Figma</div><div class="stack-desc">UI design</div></div>
-      <div class="stack-item"><div class="stack-name">ZeroTier</div><div class="stack-desc">VPN networking</div></div>
+      <a class="stack-item" href="https://www.php.net/" target="_blank" rel="noopener"><div class="stack-name">PHP<span class="stack-arrow">↗</span></div><div class="stack-desc">Primary backend</div></a>
+      <a class="stack-item" href="https://www.mysql.com/" target="_blank" rel="noopener"><div class="stack-name">MySQL<span class="stack-arrow">↗</span></div><div class="stack-desc">Database</div></a>
+      <a class="stack-item" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener"><div class="stack-name">JavaScript<span class="stack-arrow">↗</span></div><div class="stack-desc">Frontend + AJAX</div></a>
+      <a class="stack-item" href="https://www.java.com/" target="_blank" rel="noopener"><div class="stack-name">Java<span class="stack-arrow">↗</span></div><div class="stack-desc">Spring Boot APIs</div></a>
+      <a class="stack-item" href="https://react.dev/" target="_blank" rel="noopener"><div class="stack-name">React.js<span class="stack-arrow">↗</span></div><div class="stack-desc">UI framework</div></a>
+      <a class="stack-item" href="https://tidbcloud.com/" target="_blank" rel="noopener"><div class="stack-name">TiDB Cloud<span class="stack-arrow">↗</span></div><div class="stack-desc">Cloud sync DB</div></a>
+      <a class="stack-item" href="https://firebase.google.com/" target="_blank" rel="noopener"><div class="stack-name">Firebase<span class="stack-arrow">↗</span></div><div class="stack-desc">Auth + realtime</div></a>
+      <a class="stack-item" href="https://git-scm.com/" target="_blank" rel="noopener"><div class="stack-name">Git<span class="stack-arrow">↗</span></div><div class="stack-desc">Version control</div></a>
+      <a class="stack-item" href="https://www.arduino.cc/" target="_blank" rel="noopener"><div class="stack-name">Arduino<span class="stack-arrow">↗</span></div><div class="stack-desc">IoT / embedded</div></a>
+      <a class="stack-item" href="https://en.cppreference.com/" target="_blank" rel="noopener"><div class="stack-name">C / C++<span class="stack-arrow">↗</span></div><div class="stack-desc">Systems + Arduino</div></a>
+      <a class="stack-item" href="https://www.figma.com/" target="_blank" rel="noopener"><div class="stack-name">Figma<span class="stack-arrow">↗</span></div><div class="stack-desc">UI design</div></a>
+      <a class="stack-item" href="https://www.zerotier.com/" target="_blank" rel="noopener"><div class="stack-name">ZeroTier<span class="stack-arrow">↗</span></div><div class="stack-desc">VPN networking</div></a>
     </div>
   </section>
 
