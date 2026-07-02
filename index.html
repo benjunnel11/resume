@@ -17,29 +17,53 @@ a{color:inherit;text-decoration:none;}
 .layout{display:flex;min-height:100vh;}
 
 /* Sidebar */
-.sidebar{width:260px;position:fixed;top:0;left:0;height:100vh;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 0;z-index:100;overflow-y:auto;}
-.sb-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);}
-.sb-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--border);margin-bottom:12px;display:block;}
-.sb-name{font-size:15px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px;}
-.sb-title{font-size:12px;color:var(--muted);font-weight:500;}
-.sb-status{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--muted);}
-.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite;}
+.sidebar{width:260px;position:fixed;top:0;left:0;height:100vh;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 0;z-index:100;overflow-y:auto;overflow-x:hidden;transition:width .25s cubic-bezier(.4,0,.2,1);}
+.sidebar.collapsed{width:64px;}
+
+.sb-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);transition:padding .25s;}
+.sidebar.collapsed .sb-brand{padding:0 0 16px;display:flex;flex-direction:column;align-items:center;}
+.sb-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--border);margin-bottom:12px;display:block;transition:all .25s;}
+.sidebar.collapsed .sb-avatar{width:36px;height:36px;margin-bottom:8px;}
+.sb-name{font-size:15px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px;white-space:nowrap;transition:opacity .2s;}
+.sb-title{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;transition:opacity .2s;}
+.sb-status{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--muted);white-space:nowrap;transition:opacity .2s;}
+.sb-dot{width:7px;height:7px;flex-shrink:0;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite;}
 @keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4);}50%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+.sidebar.collapsed .sb-name,.sidebar.collapsed .sb-title,.sidebar.collapsed .sb-status{display:none;}
 
 .sb-nav{flex:1;padding:16px 0;}
-.sb-group{padding:0 20px;margin-bottom:16px;}
-.sb-group-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#52525b;margin-bottom:8px;}
-.sb-link{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;cursor:pointer;}
-.sb-link:hover,.sb-link.active{background:rgba(139,92,246,.08);color:var(--accent);}
-.sb-link .sb-icon{width:18px;text-align:center;font-size:14px;}
-.sb-link .sb-key{margin-left:auto;font-size:10px;font-family:'JetBrains Mono',monospace;padding:2px 6px;background:var(--card);border:1px solid var(--border);border-radius:4px;color:#52525b;}
+.sb-group{padding:0 20px;margin-bottom:20px;transition:padding .25s;}
+.sidebar.collapsed .sb-group{padding:0 8px;}
+.sb-group-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#52525b;margin-bottom:8px;white-space:nowrap;transition:opacity .2s;}
+.sidebar.collapsed .sb-group-label{opacity:0;height:0;margin:0;overflow:hidden;}
 
-.sb-footer{padding:16px 20px;border-top:1px solid var(--border);font-size:11px;color:#3f3f46;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;cursor:pointer;position:relative;white-space:nowrap;}
+.sb-link:hover,.sb-link.active{background:rgba(139,92,246,.08);color:var(--accent);}
+.sb-icon{width:18px;text-align:center;font-size:14px;flex-shrink:0;}
+.sb-link-text{transition:opacity .15s;}
+.sb-key{margin-left:auto;font-size:10px;font-family:'JetBrains Mono',monospace;padding:2px 6px;background:var(--card);border:1px solid var(--border);border-radius:4px;color:#52525b;flex-shrink:0;}
+.sb-num{font-size:10px;font-family:'JetBrains Mono',monospace;color:#3f3f46;margin-right:2px;flex-shrink:0;}
+
+.sidebar.collapsed .sb-link{justify-content:center;padding:10px 8px;}
+.sidebar.collapsed .sb-link-text,.sidebar.collapsed .sb-key,.sidebar.collapsed .sb-num{display:none;}
+
+/* Tooltip for collapsed icons */
+.sidebar.collapsed .sb-link::after{content:attr(data-title);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--border);color:var(--text);font-size:12px;font-weight:500;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:200;}
+.sidebar.collapsed .sb-link:hover::after{opacity:1;}
+
+/* Sidebar collapse button */
+.sb-collapser{position:fixed;top:50%;left:248px;transform:translateY(-50%);width:20px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:0 6px 6px 0;color:var(--muted);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:left .25s cubic-bezier(.4,0,.2,1),color .15s,border-color .15s;z-index:101;}
+.sb-collapser:hover{color:var(--accent);border-color:var(--accent);}
+.sb-collapser.is-collapsed{left:52px;}
+
+.sb-footer{padding:16px 20px;border-top:1px solid var(--border);font-size:11px;color:#3f3f46;transition:padding .25s;}
 .sb-footer a{color:#52525b;transition:color .15s;}
 .sb-footer a:hover{color:var(--accent);}
+.sidebar.collapsed .sb-footer{display:none;}
 
 /* Main content */
-.main{flex:1;margin-left:260px;min-height:100vh;}
+.main{flex:1;margin-left:260px;min-height:100vh;transition:margin-left .25s cubic-bezier(.4,0,.2,1);}
+.main.sb-narrow{margin-left:64px;}
 
 /* Hero */
 .hero{padding:100px 60px 80px;max-width:800px;}
@@ -88,7 +112,7 @@ a{color:inherit;text-decoration:none;}
 .proj-bullets{list-style:none;padding:0;}
 .proj-bullets li{font-size:12px;color:#71717a;padding:3px 0 3px 16px;position:relative;line-height:1.6;}
 .proj-bullets li::before{content:'';position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.5;}
-.proj-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--accent);margin-top:8px;transition:gap .2s;}
+.proj-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--accent);margin-top:8px;margin-right:12px;transition:gap .2s;}
 .proj-link:hover{gap:8px;}
 
 /* Experience */
@@ -128,7 +152,8 @@ a{color:inherit;text-decoration:none;}
 .c-btn{padding:10px 20px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--muted);transition:all .2s;}
 .c-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
 
-.footer{text-align:center;padding:24px;font-size:11px;color:#27272a;border-top:1px solid var(--border);}
+.footer{text-align:center;padding:24px;font-size:11px;color:#27272a;border-top:1px solid var(--border);display:flex;justify-content:center;align-items:center;gap:16px;}
+.footer-clock{font-family:'JetBrains Mono',monospace;color:#3f3f46;}
 
 /* Animations */
 .fade{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
@@ -140,8 +165,8 @@ a{color:inherit;text-decoration:none;}
 
 /* Print */
 @media print{
-  .sidebar,.sb-toggle,.sb-overlay,.no-print{display:none!important;}
-  .main{margin-left:0;}
+  .sidebar,.sb-toggle,.sb-overlay,.sb-collapser,.no-print{display:none!important;}
+  .main{margin-left:0!important;}
   body{background:#fff;color:#1e293b;}
   .hero h1,.hero h1 em,.proj-name,.exp-role,.edu-school,.contact h2,.contact h2 em{color:#1e293b!important;-webkit-text-fill-color:#1e293b!important;background:none!important;}
   .proj,.exp,.edu,.cert,.stack-item{background:#f8fafc!important;border-color:#e2e8f0!important;}
@@ -149,11 +174,13 @@ a{color:inherit;text-decoration:none;}
 }
 
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%);transition:transform .25s;}
+  .sidebar{transform:translateX(-100%);transition:transform .25s,width .25s;}
   .sidebar.open{transform:translateX(0);}
+  .sidebar.collapsed{width:260px;}
   .sb-toggle{display:block;}
   .sb-overlay.open{display:block;}
-  .main{margin-left:0;}
+  .main{margin-left:0!important;}
+  .sb-collapser{display:none;}
   .hero,.sec,.contact{padding-left:24px;padding-right:24px;}
   .hero{padding-top:70px;}
   .hero h1{font-size:32px;}
@@ -167,6 +194,11 @@ a{color:inherit;text-decoration:none;}
 <button class="sb-toggle no-print" onclick="document.getElementById('sb').classList.toggle('open');document.getElementById('sbo').classList.toggle('open');">&#9776;</button>
 <div class="sb-overlay no-print" id="sbo" onclick="document.getElementById('sb').classList.remove('open');this.classList.remove('open');"></div>
 
+<!-- Sidebar collapse button -->
+<button class="sb-collapser no-print" id="sb-collapser" onclick="toggleSidebar()" title="Toggle sidebar (B)">
+  <span id="sb-arrow">&#8249;</span>
+</button>
+
 <div class="layout">
 
 <!-- SIDEBAR -->
@@ -175,41 +207,42 @@ a{color:inherit;text-decoration:none;}
     <img src="/photo.jpg" alt="Ben Junnel Oro" class="sb-avatar">
     <div class="sb-name">Ben Junnel Oro</div>
     <div class="sb-title">Backend Developer</div>
-    <div class="sb-status"><span class="sb-dot"></span> Open to work</div>
+    <div class="sb-status"><span class="sb-dot"></span> Currently, &#x1F4BC; open to work</div>
   </div>
 
   <nav class="sb-nav">
     <div class="sb-group">
-      <div class="sb-group-label">Navigate</div>
-      <a href="#about" class="sb-link" onclick="closeMobile()"><span class="sb-icon">~</span> About <span class="sb-key">A</span></a>
-      <a href="#stack" class="sb-link" onclick="closeMobile()"><span class="sb-icon">&lt;/&gt;</span> Stack <span class="sb-key">S</span></a>
-      <a href="#projects" class="sb-link" onclick="closeMobile()"><span class="sb-icon">#</span> Projects <span class="sb-key">P</span></a>
-      <a href="#journey" class="sb-link" onclick="closeMobile()"><span class="sb-icon">&gt;</span> Journey <span class="sb-key">J</span></a>
+      <div class="sb-group-label">Applications</div>
+      <a href="#about" class="sb-link" data-title="About" onclick="closeMobile()"><span class="sb-icon">~</span><span class="sb-num">01</span><span class="sb-link-text">About</span> <span class="sb-key">A</span></a>
+      <a href="#stack" class="sb-link" data-title="Stack" onclick="closeMobile()"><span class="sb-icon">&lt;/&gt;</span><span class="sb-num">02</span><span class="sb-link-text">Stack</span> <span class="sb-key">S</span></a>
+      <a href="#projects" class="sb-link" data-title="Projects" onclick="closeMobile()"><span class="sb-icon">#</span><span class="sb-num">03</span><span class="sb-link-text">Projects</span> <span class="sb-key">P</span></a>
+      <a href="#journey" class="sb-link" data-title="Journey" onclick="closeMobile()"><span class="sb-icon">&gt;</span><span class="sb-num">04</span><span class="sb-link-text">Journey</span> <span class="sb-key">J</span></a>
+      <a href="#contact" class="sb-link" data-title="Contact" onclick="closeMobile()"><span class="sb-icon">@</span><span class="sb-num">05</span><span class="sb-link-text">Contact</span> <span class="sb-key">C</span></a>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-label">Resources</div>
+      <a href="/resume.pdf" target="_blank" class="sb-link" data-title="Resume PDF"><span class="sb-icon">&darr;</span><span class="sb-link-text">Resume PDF</span></a>
+      <a href="/Digital_Portfolio_OJT.pdf" target="_blank" class="sb-link" data-title="OJT Portfolio"><span class="sb-icon">&darr;</span><span class="sb-link-text">OJT Portfolio</span></a>
+      <a href="/thesis.pdf" target="_blank" class="sb-link" data-title="Thesis PDF"><span class="sb-icon">&darr;</span><span class="sb-link-text">Thesis PDF</span></a>
     </div>
     <div class="sb-group">
       <div class="sb-group-label">Connect</div>
-      <a href="mailto:benjunneloro@gmail.com" class="sb-link"><span class="sb-icon">@</span> Email</a>
-      <a href="https://github.com/benjunnel11" target="_blank" class="sb-link"><span class="sb-icon">&bull;</span> GitHub</a>
-      <a href="https://www.linkedin.com/in/benjunneloro" target="_blank" class="sb-link"><span class="sb-icon">in</span> LinkedIn</a>
-      <a href="tel:+639455886644" class="sb-link"><span class="sb-icon">#</span> 0945-588-6644</a>
-      <a href="tel:+639391483786" class="sb-link"><span class="sb-icon">#</span> 0939-148-3786</a>
-    </div>
-    <div class="sb-group">
-      <div class="sb-group-label">Download</div>
-      <a href="/resume.pdf" target="_blank" class="sb-link"><span class="sb-icon">&darr;</span> Resume PDF</a>
-      <a href="/Digital_Portfolio_OJT.pdf" target="_blank" class="sb-link"><span class="sb-icon">&darr;</span> OJT Portfolio</a>
-      <a href="/thesis.pdf" target="_blank" class="sb-link"><span class="sb-icon">&darr;</span> Thesis PDF</a>
+      <a href="mailto:benjunneloro@gmail.com" class="sb-link" data-title="Email"><span class="sb-icon">&#x2709;</span><span class="sb-link-text">Email</span></a>
+      <a href="https://github.com/benjunnel11" target="_blank" class="sb-link" data-title="GitHub"><span class="sb-icon">&bull;</span><span class="sb-link-text">GitHub</span></a>
+      <a href="https://www.linkedin.com/in/benjunneloro" target="_blank" class="sb-link" data-title="LinkedIn"><span class="sb-icon">in</span><span class="sb-link-text">LinkedIn</span></a>
+      <a href="tel:+639455886644" class="sb-link" data-title="0945-588-6644"><span class="sb-icon">&#x260E;</span><span class="sb-link-text">0945-588-6644</span></a>
     </div>
   </nav>
 
   <div class="sb-footer">
     <div>&copy; 2026 Ben Junnel Oro</div>
     <div style="margin-top:4px;">Talisay City, Cebu</div>
+    <div style="margin-top:4px;font-size:10px;color:#27272a;">Press <kbd style="background:var(--card);border:1px solid var(--border);padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:9px;">B</kbd> to collapse</div>
   </div>
 </aside>
 
 <!-- MAIN -->
-<main class="main">
+<main class="main" id="main">
 
   <!-- Hero -->
   <section class="hero">
@@ -323,7 +356,7 @@ a{color:inherit;text-decoration:none;}
           <li>Point-based reward system: 10 pts = snack, 3 pts = water; 2-min reset prevents point abuse</li>
           <li>Ultrasonic sensors track fill levels with 95&ndash;99% accuracy, avg. 11.77 s response</li>
           <li>10 test users: usability 4.3/5, reward satisfaction 4.5/5, environmentally beneficial 5.0/5</li>
-          <li>Built with Sintra board prototype housing; total BOM cost ₱12,750</li>
+          <li>Built with Sintra board prototype housing; total BOM cost &#8369;12,750</li>
         </ul>
         <a class="proj-link" href="https://youtu.be/2qmf1pxeCdU" target="_blank">Kickstarter video &rarr;</a>
         <a class="proj-link" href="/thesis.pdf" target="_blank">Download thesis &rarr;</a>
@@ -343,8 +376,8 @@ a{color:inherit;text-decoration:none;}
     <div style="display:flex;flex-direction:column;gap:14px;">
       <div class="exp">
         <div class="exp-top">
-          <span class="exp-role">Tech Support & Systems</span>
-          <span class="exp-date">Feb-Apr 2025</span>
+          <span class="exp-role">Tech Support &amp; Systems</span>
+          <span class="exp-date">Feb&ndash;Apr 2025</span>
         </div>
         <div class="exp-co">EmergiNet &mdash; Emergency Response ICT</div>
         <ul class="exp-list">
@@ -359,7 +392,7 @@ a{color:inherit;text-decoration:none;}
       <div class="edu">
         <div class="edu-top">
           <span class="edu-school">CIT &ndash; University</span>
-          <span class="edu-year">2021-2025</span>
+          <span class="edu-year">2021&ndash;2025</span>
         </div>
         <div class="edu-deg">BS Computer Engineering &mdash; PACUCOA Level III Accredited</div>
       </div>
@@ -374,7 +407,7 @@ a{color:inherit;text-decoration:none;}
           <span class="cert-meta">Certificate</span>
         </div>
         <div class="cert">
-          <span class="cert-name">Planning & Designing Software with AI</span>
+          <span class="cert-name">Planning &amp; Designing Software with AI</span>
           <span class="cert-meta">Certificate</span>
         </div>
       </div>
@@ -382,7 +415,7 @@ a{color:inherit;text-decoration:none;}
   </section>
 
   <!-- Contact -->
-  <section class="contact fade">
+  <section class="contact fade" id="contact">
     <h2>Let's <em>work together</em></h2>
     <p>Open to backend, full-stack, systems, and government IT roles.</p>
     <div class="contact-grid">
@@ -394,38 +427,85 @@ a{color:inherit;text-decoration:none;}
     </div>
   </section>
 
-  <div class="footer">&copy; 2026 Ben Junnel Oro &middot; Talisay City, Cebu</div>
+  <div class="footer">
+    <span>&copy; 2026 Ben Junnel Oro &middot; Talisay City, Cebu</span>
+    <span class="footer-clock" id="footer-clock"></span>
+  </div>
 
 </main>
 </div>
 
 <script>
-function closeMobile(){document.getElementById('sb').classList.remove('open');document.getElementById('sbo').classList.remove('open');}
+function closeMobile(){
+  document.getElementById('sb').classList.remove('open');
+  document.getElementById('sbo').classList.remove('open');
+}
+
+function toggleSidebar(){
+  var sb = document.getElementById('sb');
+  var main = document.getElementById('main');
+  var collapser = document.getElementById('sb-collapser');
+  var arrow = document.getElementById('sb-arrow');
+  var isNowCollapsed = sb.classList.toggle('collapsed');
+  main.classList.toggle('sb-narrow', isNowCollapsed);
+  collapser.classList.toggle('is-collapsed', isNowCollapsed);
+  arrow.innerHTML = isNowCollapsed ? '&#8250;' : '&#8249;';
+  try { localStorage.setItem('sb-state', isNowCollapsed ? '1' : '0'); } catch(e){}
+}
+
+// Restore sidebar state
+(function(){
+  try {
+    if(localStorage.getItem('sb-state') === '1'){
+      document.getElementById('sb').classList.add('collapsed');
+      document.getElementById('main').classList.add('sb-narrow');
+      document.getElementById('sb-collapser').classList.add('is-collapsed');
+      document.getElementById('sb-arrow').innerHTML = '&#8250;';
+    }
+  } catch(e){}
+})();
 
 // Scroll fade-in
-const obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:.1});
-document.querySelectorAll('.fade').forEach(function(el){obs.observe(el);});
+var obs = new IntersectionObserver(function(e){
+  e.forEach(function(x){ if(x.isIntersecting) x.target.classList.add('vis'); });
+},{threshold:.1});
+document.querySelectorAll('.fade').forEach(function(el){ obs.observe(el); });
 
 // Active sidebar link on scroll
-var sections=document.querySelectorAll('.sec[id],.hero');
-var links=document.querySelectorAll('.sb-link[href^="#"]');
-window.addEventListener('scroll',function(){
-  var y=window.scrollY+120;
+var sections = document.querySelectorAll('.sec[id],.hero');
+var links = document.querySelectorAll('.sb-link[href^="#"]');
+window.addEventListener('scroll', function(){
+  var y = window.scrollY + 120;
   sections.forEach(function(s){
-    if(s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y){
-      links.forEach(function(l){l.classList.remove('active');});
-      var id=s.getAttribute('id');
-      if(id){var a=document.querySelector('.sb-link[href="#'+id+'"]');if(a)a.classList.add('active');}
+    if(s.offsetTop <= y && s.offsetTop + s.offsetHeight > y){
+      links.forEach(function(l){ l.classList.remove('active'); });
+      var id = s.getAttribute('id');
+      if(id){ var a = document.querySelector('.sb-link[href="#'+id+'"]'); if(a) a.classList.add('active'); }
     }
   });
 });
 
 // Keyboard shortcuts
-document.addEventListener('keydown',function(e){
-  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
-  var map={a:'#about',s:'#stack',p:'#projects',j:'#journey'};
-  if(map[e.key]){e.preventDefault();document.querySelector(map[e.key]).scrollIntoView({behavior:'smooth'});}
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  var map = {a:'#about',s:'#stack',p:'#projects',j:'#journey',c:'#contact'};
+  var k = e.key.toLowerCase();
+  if(k === 'b'){ e.preventDefault(); toggleSidebar(); return; }
+  if(map[k]){ e.preventDefault(); document.querySelector(map[k]).scrollIntoView({behavior:'smooth'}); }
 });
+
+// Live clock
+function updateClock(){
+  var now = new Date();
+  var h = now.getHours();
+  var m = now.getMinutes().toString().padStart(2,'0');
+  var s = now.getSeconds().toString().padStart(2,'0');
+  var ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  document.getElementById('footer-clock').textContent = h + ':' + m + ':' + s + ' ' + ampm;
+}
+updateClock();
+setInterval(updateClock, 1000);
 </script>
 
 </body>
